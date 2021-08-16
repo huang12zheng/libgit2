@@ -214,7 +214,7 @@ jobs:
     - name: Zip Header files
       run:  mkdir -p release && zip -r release/include.zip include
     - name: Zip example files
-      run:  mkdir -p release && zip -r release/example.zip example
+      run:  mkdir -p release && zip -r release/examples.zip examples
     - uses: actions/upload-artifact@v2
       with:
         name: release_artifact
