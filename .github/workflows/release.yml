@@ -194,9 +194,8 @@ jobs:
           OSNAME="${{matrix.platform.os}}"
           if [ "${OSNAME:0:5}" = "macos" ]; then
             cp build/libgit2.dylib release/libgit2.dylib
-            cp build/Makefile release/Makefile
           elif [ "${OSNAME:0:5}" = "windo" ]; then
-            cp build/Debug/git2.dll release/libgit2-${{matrix.platform.env.ARCH}}.dll
+            cp build/Debug/git2.dll release/git2-${{matrix.platform.env.ARCH}}.dll
           fi
         fi
       shell: bash
@@ -214,6 +213,8 @@ jobs:
         fetch-depth: 0
     - name: Zip Header files
       run:  mkdir -p release && zip -r release/include.zip include
+    - name: Zip example files
+      run:  mkdir -p release && zip -r release/example.zip example
     - uses: actions/upload-artifact@v2
       with:
         name: release_artifact
@@ -226,6 +227,8 @@ jobs:
       with:
         name: release_artifact
         path: "release/"
+    - name: Zip dylib files
+      run:  mkdir -p release && zip -r release/dylib.zip *.so *.dll *.dylib
     - name: Upload Release Asset
       uses: ncipollo/release-action@v1
       with:
